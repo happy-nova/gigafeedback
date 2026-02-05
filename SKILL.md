@@ -7,17 +7,7 @@ description: Format and send Gigaverse daily feedback reports to Slack using Blo
 
 Format Gigaverse community feedback into rich Slack Block Kit messages with colored sidebars, Linear issue links, and status emojis.
 
-## Configuration
-
-Set the webhook URL as an environment variable:
-```bash
-export GIGAFEEDBACK_WEBHOOK="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
-```
-
-Or pass directly to the script:
-```bash
-GIGAFEEDBACK_WEBHOOK="..." scripts/send-feedback.sh < payload.json
-```
+**This skill is primarily format guidance.** You can send the formatted message however you like — curl, Slack API, copy/paste, etc. The webhook helper script is optional.
 
 ## Message Structure
 
@@ -79,19 +69,17 @@ Format all GIGA-XXX references as clickable links:
 | Pain Points | #F39C12 | Yellow - friction |
 | Community Vibes | #2ECC71 | Green - sentiment |
 
-## Usage
+## Sending (Optional)
 
-1. Receive raw feedback text with bugs, suggestions, pain points, and vibes
-2. Parse into sections
-3. Format each item with proper mrkdwn, links, and status emojis
-4. Build Block Kit JSON with colored attachments
-5. POST to webhook
-
-## Example Invocation
-
+If using a webhook, set the env var and pipe JSON to the helper:
 ```bash
-# Send formatted feedback
+export GIGAFEEDBACK_WEBHOOK="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
 scripts/send-feedback.sh < payload.json
 ```
 
-Or construct the JSON directly and curl to the webhook.
+Or just curl directly:
+```bash
+curl -X POST -H 'Content-type: application/json' --data @payload.json "$YOUR_WEBHOOK"
+```
+
+Or copy the formatted JSON and paste into any Slack Block Kit tool.
